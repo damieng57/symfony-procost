@@ -1,0 +1,32 @@
+{# default Sliding pagination control implementation #}
+
+{% if pageCount > 1 %}
+<div class="col-md-2 col-sm-2 col-md-offset-5">
+	<div class="pagination">
+		{% if first is defined and current != first %}
+		<a href="{{ path(route, query|merge({(pageParameterName): first})) }}" class="badge bg-default"><i class="fa fa-chevron-left"></i></a>
+		{% endif %}
+
+		{% if previous is defined %}
+		<a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" class="badge bg-default"><i class="fa fa-chevron-left"></i></a>
+		{% endif %}
+
+		{% for page in pagesInRange %}
+		{% if page != current %}
+		<a href="{{ path(route, query|merge({(pageParameterName): page})) }}" class="badge bg-default">{{ page }}</a>
+		{% else %}
+		<span class="badge bg-theme">{{ page }}</span>
+		{% endif %}
+
+		{% endfor %}
+
+		{% if next is defined %}
+		<a href="{{ path(route, query|merge({(pageParameterName): next})) }}" class="badge bg-default"><i class="fa fa-chevron-right"></i></a>
+		{% endif %}
+
+		{% if last is defined and current != last %}
+		<a href="{{ path(route, query|merge({(pageParameterName): last})) }}" class="badge bg-default"><i class="fa fa-chevron-right"></i></a>
+		{% endif %}
+	</div>
+</div>
+{% endif %}

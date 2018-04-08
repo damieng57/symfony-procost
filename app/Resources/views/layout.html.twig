@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block menu %}
+
+	<!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion">
+
+                    <p class="centered">
+                        <img src="{{asset('/bundles/app/img/ui-sam.jpg')}}" class="img-circle" width="60">
+                    </p>
+                    <h5 class="centered">Marcel Director</h5>
+
+                    <li class="mt">
+                        <a class="active" href="{{path('homepage')}}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Tableau de bord</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="{{path('projects')}}">
+                            <i class="fa fa-desktop"></i>
+                            <span>Les projets</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="{{path('employees')}}">
+                            <i class="fa fa-users"></i>
+                            <span>Les employés</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="{{path('jobs')}}">
+                            <i class="fa fa-book"></i>
+                            <span>Les métiers</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+
+{% endblock %}
+
+
+{% block content %}
+
+{% endblock %}
+
+

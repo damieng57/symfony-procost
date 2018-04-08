@@ -1,0 +1,81 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<!-- **********************************************************************************************************************************************************
+	  MAIN CONTENT
+	  *********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+	<section class="wrapper">
+
+		<h3><i class="fa fa-angle-right"></i> Edition d'un employé</h3>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="form-panel">
+						{{ form_start(form, { 'action': path('employee_edit', { 'id' : (form.id.vars.value == "") ? 0 : form.id.vars.value } ), 'attr': { 'class': 'form-horizontal style-form' } }) }}
+							<div class="form-group">
+
+								{{ form_label(form.prenom, form.prenom.vars.label, {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+								<div class="col-sm-10">
+									{{ form_errors(form.prenom) }}
+									{{ form_widget(form.prenom, {'attr': {'class' : 'form-control'}}) }}
+								</div>
+
+							</div>
+							<div class="form-group">
+
+								{{ form_label(form.nom, form.nom.vars.label, {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+								<div class="col-sm-10">
+									{{ form_errors(form.nom) }}
+									{{ form_widget(form.nom, {'attr': {'class' : 'form-control'}}) }}
+								</div>
+
+							</div>
+							<div class="form-group">
+
+								{{ form_label(form.email, form.email.vars.label, {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+								<div class="col-sm-10">
+									{{ form_errors(form.email) }}
+									{{ form_widget(form.email, {'attr': {'class' : 'form-control'}}) }}
+								</div>
+
+							</div>
+							<div class="form-group">
+								{{ form_label(form.job, form.job.vars.label, {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+								<div class="col-sm-10">
+									{{ form_errors(form.job) }}
+									{{ form_widget(form.job, {'attr': {'class' : 'form-control'}}) }}
+								</div>
+							</div>
+							<div class="form-group">
+
+								{{ form_label(form.coutJour, form.coutJour.vars.label, {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+								<div class="col-sm-10">
+									{{ form_errors(form.coutJour) }}
+									{{ form_widget(form.coutJour, {'attr': {'class' : 'form-control'}}) }}
+								</div>
+
+							</div>
+							<div class="form-group">
+
+								{{ form_label(form.dateEmbauche, form.dateEmbauche.vars.label, {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+								<div class="col-sm-10">
+									{{ form_errors(form.dateEmbauche) }}
+									{{ form_widget(form.dateEmbauche, {'attr': {'type' : 'date', 'class' : 'form-control'}}) }}
+								</div>
+							</div>
+							{{ form_rest(form) }}
+							<button type="submit" class="btn btn-sm btn-success">Enregistrer</button>
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/row -->
+	</section>
+</section>
+
+<!--main content end-->
+{% endblock %}

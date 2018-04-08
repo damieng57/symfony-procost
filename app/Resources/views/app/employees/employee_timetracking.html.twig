@@ -1,0 +1,83 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+	<!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+
+                <h3><i class="fa fa-angle-right"></i> Suivi de {{ employee.prenom }} {{ employee.nom|upper }}</h3>
+
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="row">
+                            <div class="form-panel">
+                                <table class="table table-bordered table-striped table-condensed">
+                                    <tbody>
+                                        <tr><th>Prénom</th><td>{{ employee.prenom }}</td></tr>
+                                        <tr><th>Nom</th><td>{{ employee.nom|upper }}</td></tr>
+                                        <tr><th>Email</th><td>{{ employee.email }}</td></tr>
+                                        <tr><th>Métier</th><td>{{ employee.job.job }}</td></tr>
+                                        <tr><th>Coût (jour)</th><td>{{ employee.coutJour }} €</td></tr>
+                                        <tr><th>Date d'embauche</th><td>{{ employee.dateEmbauche|date('d-m-Y') }}</td></tr>
+                                    </tbody>
+                                </table>
+                                <a class="btn btn-success btn-sm" href="{{ path('employee_edit', {'id': employee.id, }) }}">Modifier</a>
+								{% if employee.status %}
+									<a class="btn btn-danger btn-sm" href="{{ path('employee_archive', {'id': employee.id }) }}">Archiver</a>
+								{% else %}
+									<a class="btn btn-primary btn-sm" href="{{ path('employee_archive', {'id': employee.id }) }}">Réactiver</a>
+								{% endif %}
+								
+                            </div>
+                        </div>
+						
+						{% if (employee.status) %}
+							{% include "app/employees/components/addTime.html.twig" %}
+						{% endif %}
+						
+                    </div>
+                    <div class="col-lg-7 main-chart">
+                        <h4>Historique des temps de production :</h4>
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Projet</th>
+                                    <th>Temps</th>
+                                    <th>Date de saisie</th>
+                                    <th>Coût total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+								{% for project in projects %}
+                                <tr>
+                                    <th><a href="#">{{ project.intitule }}</a></th>
+                                    <th>4 j</th>
+                                    <th>{{ project.dateCreation|date('d-m-Y') }}</th>
+                                    <th>1 200 €</th>
+                                    <th>
+                                        <a href="#" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                    </th>
+                                </tr>
+								{% endfor %}
+
+                            </tbody>
+                        </table>
+                        
+						{# display navigation #}
+						{{ knp_pagination_render(pagination) }}
+						
+                    </div>
+                </div>
+                <!--/row -->
+            </section>
+        </section>
+
+        <!--main content end-->
+
+{% endblock %}
