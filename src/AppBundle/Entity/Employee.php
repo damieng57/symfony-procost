@@ -68,7 +68,7 @@ class Employee {
      * @ORM\Column(name="status", type="boolean")
      */
     private $status;
-
+		
 	/**
 	 * @var string
 	 * 

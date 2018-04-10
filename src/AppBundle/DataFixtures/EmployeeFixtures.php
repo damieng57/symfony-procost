@@ -3,6 +3,7 @@
 namespace AppBundle\DataFixtures;
 
 use AppBundle\Entity\Employee;
+use AppBundle\Entity\Time;
 use AppBundle\Entity\Project;
 use AppBundle\Entity\Job;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -27,6 +28,7 @@ class EmployeeFixtures extends Fixture {
 		);
 		$limit_employe = 20;
 		$limit_projet = 15;
+		$limit_temps = 75;
 
 
 		// Génération de la table des métiers
@@ -70,8 +72,20 @@ class EmployeeFixtures extends Fixture {
 
 			$manager->persist($project);
 		}
+		
+		$manager->flush();
+		
+		// Génération de la table des temps
+		for ($i = 0; $i < $limit_temps; $i++) {
 
-
+			$temps = new Time();
+			// On choisi un projet et un employé au hasard
+			$temps->setEmployee($manager->getRepository('AppBundle:Employee')->findAll(array())[mt_rand(0, 19)]);
+			$temps->setProject($manager->getRepository('AppBundle:Project')->findAll(array())[mt_rand(0, 14)]);
+			// On génère un nombre de jour
+			$temps->setDay(mt_rand(0, 50));
+			$manager->persist($temps);
+		}
 
 		$manager->flush();
 	}
