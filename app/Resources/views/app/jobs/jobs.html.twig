@@ -9,7 +9,7 @@
 	<section class="wrapper">
 
 		<h3><i class="fa fa-angle-right"></i> Gestion des métiers</h3>
-		<a class="btn btn-success btn-sm pull-right" href="#">Ajouter un métier</a>
+		<a class="btn btn-success btn-sm pull-right" href="{{ path('job_edit', {'id': 0 }) }}">Ajouter un métier</a>
 
 		<div class="row">
 			<div class="col-lg-12 main-chart">
@@ -25,15 +25,20 @@
 						<tr>
 							<th>{{ job.job }}</th>
 							<th>
-								<a href="#" class="btn btn-success btn-xs">
-									<i class="fa fa-clock-o"></i>
 								</a>
 								<a href="#" class="btn btn-primary btn-xs">
 									<i class="fa fa-pencil"></i>
 								</a>
-								<a href="#" class="btn btn-danger btn-xs">
+								<button type="button" 
+                                class="btn btn-danger btn-xs"
+                                data-toggle="modal"
+                                data-target="#modalDelete"
+                                data-id="{{ job.id }}"
+                                data-name="{{ job.job }}"
+                                data-link="/jobDelete/"
+                                >
 									<i class="fa fa-trash-o"></i>
-								</a>
+								</button>
 							</th>
 						</tr>
 						{% endfor %}

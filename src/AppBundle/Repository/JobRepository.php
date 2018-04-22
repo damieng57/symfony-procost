@@ -14,10 +14,18 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 	public function groupByjob() {
 	
 		$query = $this->createQueryBuilder('q')
-				->select('q.job')
-				->groupBy('q.job');
+				->select('q')
+				->groupBy('q.id');
 		
 		return $query->getQuery()->getResult();
+	}
+	
+	public function countJob() {
+
+		$query = $this->createQueryBuilder('q')
+				->select('COUNT(q)');
+
+		return $query->getQuery()->getSingleScalarResult();
 	}
 	
 }

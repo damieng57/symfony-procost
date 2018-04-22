@@ -54,12 +54,12 @@
                                     <div class="row">
                                         <div class="col-sm-6 col-xs-6 goleft">
                                             <p>
-                                                <i class="fa fa-database"></i> 70% CAPEX</p>
+                                                <i class="fa fa-database"></i>  <script>document.write(Math.round({{ nbProjectCAPEX }}/{{ nbProject }}*100));</script>% CAPEX</p>
                                         </div>
                                     </div>
                                     <canvas id="ratio" height="120" width="120"></canvas>
                                     <script>
-                                        var doughnutData = [{ value: 70, color: "#68dff0" }, { value: 30, color: "#fdfdfd" }];
+                                        var doughnutData = [{ value: {{ nbProjectCAPEX }}, color: "#68dff0" }, { value: {{ nbProjectOPEX }}, color: "#fdfdfd" }];
                                         var myDoughnut = new Chart(document.getElementById("ratio").getContext("2d")).Doughnut(doughnutData);
                                     </script>
                                 </div>
@@ -74,12 +74,12 @@
                                     <div class="row">
                                         <div class="col-sm-6 col-xs-6 goleft">
                                             <p>
-                                                <i class="fa fa-cloud"></i> 35% LIVRES</p>
+                                                <i class="fa fa-cloud"></i> <script>document.write(Math.round({{ nbProjectFinished }}/{{ nbProject }}*100));</script>% LIVRES</p>
                                         </div>
                                     </div>
                                     <canvas id="ratio2" height="120" width="120"></canvas>
                                     <script>
-                                        var doughnutData = [{ value: 35, color: "#68dff0" }, { value: 65, color: "#fdfdfd" }];
+                                        var doughnutData = [{ value: {{ nbProjectFinished }}, color: "#68dff0" }, { value: {{ nbProjectNotFinished }}, color: "#fdfdfd" }];
                                         var myDoughnut = new Chart(document.getElementById("ratio2").getContext("2d")).Doughnut(doughnutData);
                                     </script>
                                 </div>

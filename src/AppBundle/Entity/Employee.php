@@ -68,6 +68,26 @@ class Employee {
      * @ORM\Column(name="status", type="boolean")
      */
     private $status;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="Merci de bien vouloir charger une image (.gif, .jpg ou .png.")
+     * @Assert\File(mimeTypes={ "image/gif", "image/jpeg", "image/png" })
+     */
+    private $picture;
+
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
 		
 	/**
 	 * @var string
@@ -258,4 +278,9 @@ class Employee {
     {
         return $this->status;
     }
+	
+	
+	public function __toString() {
+		return $this->getNom();
+	}
 }

@@ -20,6 +20,9 @@ class MainController extends Controller {
 
 		// On récupère le nombre de projets livrés
 		$nbProjectFinished = $em->getRepository('AppBundle:Project')->countProjectFinished();
+				
+		// On récupère le nombre de projets non livrés
+		$nbProjectNotFinished = $em->getRepository('AppBundle:Project')->countProjectNotFinished();
 
 		// On récupère le nombre d'employés
 		$nbEmployee = $em->getRepository('AppBundle:Employee')->countEmployee();
@@ -30,7 +33,15 @@ class MainController extends Controller {
 				array('dateCreation' => 'desc'),
 				5,
 				0
-		);
+		);	
+		
+		// On récupère le nombre de projets CAPEX
+		$nbProjectCAPEX = $em->getRepository('AppBundle:Project')->countProjectCAPEX();
+		
+		
+		// On récupère le nombre de projets OPEX
+		$nbProjectOPEX = $em->getRepository('AppBundle:Project')->countProjectOPEX();
+		
 
 
 		// replace this example code with whatever you need
@@ -38,6 +49,9 @@ class MainController extends Controller {
 					'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
 					'nbProject' => $nbProject,
 					'nbProjectFinished' => $nbProjectFinished,
+					'nbProjectNotFinished' => $nbProjectNotFinished,
+					'nbProjectCAPEX' => $nbProjectCAPEX,
+					'nbProjectOPEX' => $nbProjectOPEX,
 					'nbEmployee' => $nbEmployee,
 					'lastProjects' => $lastprojects,
 		]);
@@ -91,7 +105,7 @@ class MainController extends Controller {
 	public function jobsAction(Request $request) {
 		// Récupération de la liste des jobs
 		$em = $this->getDoctrine()->getManager();
-		$jobs = $em->getRepository('AppBundle:Job')->groupByjob();
+		$jobs = $em->getRepository('AppBundle:Job')->findAll();
 
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate(

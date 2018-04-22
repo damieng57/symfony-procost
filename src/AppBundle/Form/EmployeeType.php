@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class EmployeeType extends AbstractType {
 
@@ -32,6 +33,10 @@ class EmployeeType extends AbstractType {
 		$builder->add('dateEmbauche', DateType::class, array(
 			// renders it as a single text box
 			'widget' => 'single_text',
+        ));
+        
+        $builder->add('picture', FileType::class, array(
+			'label' => 'Image',
 		));
 	}
 

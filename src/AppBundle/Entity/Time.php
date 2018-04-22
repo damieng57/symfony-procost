@@ -39,7 +39,7 @@ class Time {
 	/**
 	 * @var string
 	 * 
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project", cascade={"persist", "merge"})
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project", inversedBy="times", cascade={"persist", "merge"})
 	 * 
 	 */
 	private $project;

@@ -17,25 +17,25 @@
                     <h5 class="centered">Marcel Director</h5>
 
                     <li class="mt">
-                        <a class="active" href="{{path('homepage')}}">
+                        <a {% if app.request.attributes.get('_route') == "homepage" %}class="active"{% endif %} href="{{path('homepage')}}">
                             <i class="fa fa-dashboard"></i>
                             <span>Tableau de bord</span>
                         </a>
                     </li>
                     <li class="sub-menu">
-                        <a href="{{path('projects')}}">
+                        <a {% if app.request.attributes.get('_route') == "projects" %}class="active"{% endif %} href="{{path('projects')}}">
                             <i class="fa fa-desktop"></i>
                             <span>Les projets</span>
                         </a>
                     </li>
                     <li class="sub-menu">
-                        <a href="{{path('employees')}}">
+                        <a {% if app.request.attributes.get('_route') == "employees" %}class="active"{% endif %} href="{{path('employees')}}">
                             <i class="fa fa-users"></i>
                             <span>Les employés</span>
                         </a>
                     </li>
                     <li class="sub-menu">
-                        <a href="{{path('jobs')}}">
+                        <a {% if app.request.attributes.get('_route') == "jobs" %}class="active"{% endif %} href="{{path('jobs')}}">
                             <i class="fa fa-book"></i>
                             <span>Les métiers</span>
                         </a>

@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<!-- **********************************************************************************************************************************************************
+	  MAIN CONTENT
+	  *********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+	<section class="wrapper">
+
+		<h3><i class="fa fa-angle-right"></i> Edition d'un métier</h3>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="form-panel">
+						{{ form_start(form, { 'action': path('job_edit', { 'id' : (form.id.vars.value == "") ? 0 : form.id.vars.value } ), 'attr': { 'class': 'form-horizontal style-form' } }) }}
+							<div class="form-group">
+
+								{{ form_label(form.job, form.job.vars.label, {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+								<div class="col-sm-10">
+									{{ form_errors(form.job) }}
+									{{ form_widget(form.job, {'attr': {'class' : 'form-control'}}) }}
+								</div>
+
+							</div>
+							{{ form_rest(form) }}
+							<button type="submit" class="btn btn-sm btn-success">Enregistrer</button>
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/row -->
+	</section>
+</section>
+
+<!--main content end-->
+{% endblock %}

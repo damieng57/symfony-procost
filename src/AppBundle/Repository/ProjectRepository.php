@@ -26,5 +26,43 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 		return $query->getQuery()->getSingleScalarResult();
 	}
+	
+	public function countProjectNotFinished() {
+
+		$query = $this->createQueryBuilder('q')
+				->select('COUNT(q)')
+				->where('q.livre=0');
+
+		return $query->getQuery()->getSingleScalarResult();
+	}
+	
+	public function countProjectCAPEX() {
+
+		$query = $this->createQueryBuilder('q')
+				->select('COUNT(q)')
+				->where('q.type=\'CAPEX\'');
+
+		return $query->getQuery()->getSingleScalarResult();
+	}
+	
+	public function countProjectOPEX() {
+
+		$query = $this->createQueryBuilder('q')
+				->select('COUNT(q)')
+				->where('q.type=\'OPEX\'');
+
+		return $query->getQuery()->getSingleScalarResult();
+	}
+	
+	public function historyProjects() {
+		
+		$query = $this->createQueryBuilder('q')
+				->select('q.intitule', 'q.day', 'u.date_creation')
+				->from(AppBundle:Project, $alias)
+				
+				SELECT `intitule`, time.day, `date_creation` FROM project, time WHERE project.id=time.project_id group by `project`.`id`, time.day, `intitule`, time.id
+	}
+	
+	
 
 }
