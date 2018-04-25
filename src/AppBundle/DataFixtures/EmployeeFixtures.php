@@ -53,6 +53,7 @@ class EmployeeFixtures extends Fixture {
 			$employee->setEmail($faker->email());
 			$employee->setCoutJour(mt_rand(10000, 50000) / 100);
 			$employee->setDateEmbauche($faker->dateTime);
+			$employee->setPicture("default.png");
 
 			$manager->persist($employee);
 		}
@@ -84,6 +85,7 @@ class EmployeeFixtures extends Fixture {
 			$temps->setProject($manager->getRepository('AppBundle:Project')->findAll(array())[mt_rand(0, 14)]);
 			// On génère un nombre de jour
 			$temps->setDay(mt_rand(0, 50));
+			$temps->setDateAjout($faker->dateTime);
 			$manager->persist($temps);
 		}
 

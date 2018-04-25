@@ -38,9 +38,9 @@
                             <div class="col-md-2 col-sm-2 box0">
                                 <div class="box1">
                                     <span class="li_heart"></span>
-                                    <h3>267</h3>
+                                    <h3>{{ nbJours }}</h3>
                                 </div>
-                                <p>267 jours de production</p>
+                                <p>{{ nbJours }} jours de production</p>
                             </div>
                         </div>
                         <!-- /row mt -->
@@ -93,19 +93,19 @@
                                         <h5>TOP EMPLOYE</h5>
                                     </div>
                                     <p>
-                                        <img src="{{asset('/bundles/app/img/ui-zac.jpg')}}" class="img-circle" width="80">
+                                        <img src="{{asset('/uploads/pictures/')}}{{ topEmployee.0.picture }}" class="img-circle" width="80">
                                     </p>
                                     <p>
-                                        <b>Zac Producteur</b>
+                                        <b>{{ topEmployee.0.nom }} {{ topEmployee.0.job }}</b>
                                     </p>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <p class="small mt">EMPLOYE DEPUIS</p>
-                                            <p>2012</p>
+                                            <p>{{ topEmployee.0.dateEmbauche|date("Y") }}</p>
                                         </div>
                                         <div class="col-md-6">
                                             <p class="small mt">TOTAL DEPENSE</p>
-                                            <p>34 567 €</p>
+                                            <p>{{ topEmployee.0.cout }}€</p>
                                         </div>
                                     </div>
                                 </div>
@@ -131,11 +131,11 @@
 										{% for project in lastProjects %}
                                         <tr>
                                             <th>
-                                                <a href="#">{{ project.intitule }}</a>
+                                                <a href="projectTime/{{ project.id }}">{{ project.intitule }}</a>
                                             </th>
                                             <th>{{ project.type }}</th>
                                             <th>{{ project.dateCreation|date('d-m-Y') }}</th>
-                                            <th>3 200 €</th>
+                                            <th>{{ project.1 }}€ </th>
                                             <th>
 												{% if project.livre %}
                                                 <span class="label label-success label-mini">OUI</span>
@@ -160,6 +160,7 @@
                     <div class="col-lg-3 ds">
                         <h3>TEMPS DE PRODUCTION</h3>
 
+						{% for time in tempsProduction %}
                         <div class="desc">
                             <div class="thumb">
                                 <span class="badge bg-theme">
@@ -168,118 +169,15 @@
                             </div>
                             <div class="details">
                                 <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
+                                    <a href="employeeTime/{{ time.id }}">{{ time.prenom }} {{ time.nom | upper }}</a> a travaillé sur
+                                    <a href="projectTime/{{ time.proid }}">{{ time.intitule }}</a>.
                                     <br/>
-                                    <muted>3 JOURS</muted>
+                                    <muted>{{ time.day }} JOURS</muted>
                                 </p>
                             </div>
                         </div>
-                        <div class="desc">
-                            <div class="thumb">
-                                <span class="badge bg-theme">
-                                    <i class="fa fa-clock-o"></i>
-                                </span>
-                            </div>
-                            <div class="details">
-                                <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
-                                    <br/>
-                                    <muted>3 JOURS</muted>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="desc">
-                            <div class="thumb">
-                                <span class="badge bg-theme">
-                                    <i class="fa fa-clock-o"></i>
-                                </span>
-                            </div>
-                            <div class="details">
-                                <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
-                                    <br/>
-                                    <muted>3 JOURS</muted>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="desc">
-                            <div class="thumb">
-                                <span class="badge bg-theme">
-                                    <i class="fa fa-clock-o"></i>
-                                </span>
-                            </div>
-                            <div class="details">
-                                <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
-                                    <br/>
-                                    <muted>3 JOURS</muted>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="desc">
-                            <div class="thumb">
-                                <span class="badge bg-theme">
-                                    <i class="fa fa-clock-o"></i>
-                                </span>
-                            </div>
-                            <div class="details">
-                                <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
-                                    <br/>
-                                    <muted>3 JOURS</muted>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="desc">
-                            <div class="thumb">
-                                <span class="badge bg-theme">
-                                    <i class="fa fa-clock-o"></i>
-                                </span>
-                            </div>
-                            <div class="details">
-                                <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
-                                    <br/>
-                                    <muted>3 JOURS</muted>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="desc">
-                            <div class="thumb">
-                                <span class="badge bg-theme">
-                                    <i class="fa fa-clock-o"></i>
-                                </span>
-                            </div>
-                            <div class="details">
-                                <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
-                                    <br/>
-                                    <muted>3 JOURS</muted>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="desc">
-                            <div class="thumb">
-                                <span class="badge bg-theme">
-                                    <i class="fa fa-clock-o"></i>
-                                </span>
-                            </div>
-                            <div class="details">
-                                <p>
-                                    <a href="#">James Brown</a> a travaillé sur
-                                    <a href="#">Nom du projet</a>.
-                                    <br/>
-                                    <muted>3 JOURS</muted>
-                                </p>
-                            </div>
-                        </div>
+						{% endfor %}
+                        
 
                     </div>
                     <!-- /col-lg-3 -->

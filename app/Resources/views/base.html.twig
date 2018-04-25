@@ -34,31 +34,31 @@
 
             <!-- ********************************************************************************************************************************************************** TOP BAR CONTENT & NOTIFICATIONS *********************************************************************************************************************************************************** -->
 
-            <!--message flash start-->
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success" role="alert">
-                    <p>{{ message }}</p>
-                </div>
-            {% endfor %}
+				<!--message flash start-->
+				{% for message in app.flashes('success') %}
+				<div class="alert alert-success" role="alert">
+					<p>{{ message }}</p>
+				</div>
+				{% endfor %}
 
-            {% for message in app.flashes('error') %}
-                <div class="alert alert-danger" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
+				{% for message in app.flashes('error') %}
+				<div class="alert alert-danger" role="alert">
+					{{ message }}
+				</div>
+				{% endfor %}
 
-            {% for message in app.flashes('info') %}
-                <div class="alert alert-info" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
+				{% for message in app.flashes('info') %}
+				<div class="alert alert-info" role="alert">
+					{{ message }}
+				</div>
+				{% endfor %}
 
-            {% for message in app.flashes('warning') %}
-                <div class="alert alert-warning" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            <!--message flash end-->
+				{% for message in app.flashes('warning') %}
+				<div class="alert alert-warning" role="alert">
+					{{ message }}
+				</div>
+				{% endfor %}
+				<!--message flash end-->
 
             <!--header start-->
             <header class="header black-bg">
@@ -73,11 +73,11 @@
                 <!--logo end-->
                 <div class="search-engine">
                     <div class="pull-right">
-                        <form class="form-inline">
+						<form action="{{ path('search')}}" class="form-inline" method="GET">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Recherche">
+                                <input name="search" type="text" class="form-control" placeholder="Recherche">
                             </div>
-                            <button type="button" class="btn btn-theme">OK</button>
+                            <button type="submit" class="btn btn-theme">OK</button>
                         </form>
                     </div>
                 </div>
@@ -139,14 +139,14 @@
         </div>
 
         <script>
-            $('#modalDelete').on('show.bs.modal', function (e) {
-                var $modal = $(this),
-                id = e.relatedTarget.dataset.id,
-                name = e.relatedTarget.dataset.name;
-                link = e.relatedTarget.dataset.link;
-                $modal.find('.edit-content').html("Voulez-vous vraiment supprimer : " + name);
-                $modal.find('a.deleteElement').attr("href", link + id);
-            });
+$('#modalDelete').on('show.bs.modal', function (e) {
+	var $modal = $(this),
+			id = e.relatedTarget.dataset.id,
+			name = e.relatedTarget.dataset.name;
+	link = e.relatedTarget.dataset.link;
+	$modal.find('.edit-content').html("Voulez-vous vraiment supprimer : " + name);
+	$modal.find('a.deleteElement').attr("href", link + id);
+});
         </script>
 
     </body>

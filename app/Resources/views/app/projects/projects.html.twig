@@ -33,13 +33,13 @@
                                     <th>{{ project.type }}</th>
                                     <th>{{ project.dateCreation|date('d-m-Y') }}</th>
                                     <th>
-                                        {% if project %}Oui{% else %}Non{% endif %}
+                                        {% if project.livre %}Oui{% else %}Non{% endif %}
                                     </th>
                                     <th>
                                         <a href="#" class="btn btn-success btn-xs">
                                             <i class="fa fa-clock-o"></i>
                                         </a>
-                                        <a href="#" class="btn btn-primary btn-xs">
+                                        <a href="{{ path('project_edit', {'id': project.id }) }}" class="btn btn-primary btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </a>
 
@@ -49,7 +49,7 @@
                                                 class="btn btn-danger btn-xs" 
                                                 data-toggle="modal" 
                                                 data-target="#modalDelete"
-                                                data-id={{ project.id }}
+                                                data-id="{{ project.id }}"
                                                 data-name="{{ project.intitule }}"
                                                 data-link="/projectDelete/"
                                                 >

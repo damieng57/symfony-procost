@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Project;
+use AppBundle\Entity\Time;
+
 /**
  * ProjectRepository
  *
@@ -26,7 +29,7 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 		return $query->getQuery()->getSingleScalarResult();
 	}
-	
+
 	public function countProjectNotFinished() {
 
 		$query = $this->createQueryBuilder('q')
@@ -35,7 +38,7 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 		return $query->getQuery()->getSingleScalarResult();
 	}
-	
+
 	public function countProjectCAPEX() {
 
 		$query = $this->createQueryBuilder('q')
@@ -44,7 +47,7 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 		return $query->getQuery()->getSingleScalarResult();
 	}
-	
+
 	public function countProjectOPEX() {
 
 		$query = $this->createQueryBuilder('q')
@@ -53,16 +56,78 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 		return $query->getQuery()->getSingleScalarResult();
 	}
-	
+
 	public function historyProjects() {
+
+		// SELECT project.intitule, project.date_creation, time.day, employee.nom 
+		// FROM project, employee, time 
+		// WHERE project.id=time.project_id and employee.id=time.employee_id
+
+		$query = $this->createQueryBuilder('p')
+				->from('AppBundle:Employee', 'e')
+				->from('AppBundle:Time', 't')
+				->where('p.id=t.project')
+				->andWhere('e.id=t.employee');
+
+		return $query->getQuery()->getResult();
+	}
+
+	public function historyProjectsByEmployee($id) {
+
+		// SELECT time.id, project.intitule, project.date_creation, time.day, employee.nom 
+		// FROM project, employee, time 
+		// WHERE project.id=time.project_id 
+		// AND employee.id=time.employee_id
+		// AND employee.id = $id
 		
-		$query = $this->createQueryBuilder('q')
-				->select('q.intitule', 'q.day', 'u.date_creation')
-				->from(AppBundle:Project, $alias)
-				
-				SELECT `intitule`, time.day, `date_creation` FROM project, time WHERE project.id=time.project_id group by `project`.`id`, time.day, `intitule`, time.id
+
+		$query = $this->createQueryBuilder('p')
+				->select('t.id, p.intitule, p.dateCreation, t.day, e.coutJour')
+				->from('AppBundle:Employee', 'e')
+				->from('AppBundle:Time', 't')
+				->where('p.id=t.project')
+				->andWhere('e.id=t.employee')
+				->andWhere('e.id=:employee')
+				->setParameter('employee', $id)
+				->orderBy('p.dateCreation', 'DESC');
+
+		return $query->getQuery()->getArrayResult();
 	}
 	
+
+	public function searchProject($value) {
+
+		$query = $this->createQueryBuilder('q')
+				->select('q')
+				->andWhere('q.intitule like :x')
+				->setParameter('x', $value);
+
+		return $query->getQuery()->getResult();
+	}
 	
+	public function globalCostByProject() {
+		// SELECT project.intitule, project.date_creation, project.type, 
+		// SUM(employee.cout_jour*time.day) AS total_employee, project.livre
+		// FROM time, employee, project 
+		// WHERE time.project_id = project.id 
+		// AND time.employee_id = employee.id 
+		// GROUP BY project.intitule, project.livre, project.type, project.date_creation 
+		// ORDER BY project.date_creation 
+		// DESC LIMIT 0, 5
+		
+		$query = $this->createQueryBuilder('p')
+				->select('p.id, p.intitule, p.type, p.dateCreation, p.livre, SUM(e.coutJour*t.day)')
+				->from('AppBundle:Employee', 'e')
+				->from('AppBundle:Time', 't')
+				->where('p.id=t.project')
+				->andWhere('e.id=t.employee')
+				->groupBy('p.id, p.intitule, p.type, p.dateCreation, p.livre')
+				->orderBy('p.dateCreation', 'DESC')
+				->setMaxResults(5)
+				->setFirstResult(10);
+
+		return $query->getQuery()->getResult();
+		
+	}
 
 }

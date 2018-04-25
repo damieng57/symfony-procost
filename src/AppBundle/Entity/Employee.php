@@ -76,6 +76,29 @@ class Employee {
      * @Assert\File(mimeTypes={ "image/gif", "image/jpeg", "image/png" })
      */
     private $picture;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Time", cascade={"persist", "merge"}, mappedBy="employee")
+	 */
+	private $days;
+
+	public function __construct() {
+		$this->products = new ArrayCollection();
+	}
+
+	public function addDay(\AppBundle\Entity\Employee $days) {
+		$this->days[] = $days;
+		return $this;
+	}
+
+	public function removeDay(\AppBundle\Entity\Employee $days) {
+		$this->days->removeElement($days);
+	}
+	
+	public function getDays() {
+		return $this->days;
+	}
+	
 
     public function getPicture()
     {

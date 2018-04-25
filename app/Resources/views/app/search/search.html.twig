@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<!-- ********************************************************************************************************************************************************** MAIN CONTENT *********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+	<section class="wrapper">
+
+		<h3>
+			<i class="fa fa-angle-right"></i>
+			Résultats de recherche</h3>
+
+		<div class="row">
+			<div class="col-lg-12 main-chart">
+				<table class="table table-bordered table-striped table-condensed">
+					<thead>
+						<tr>
+							<th>Dénomination</th>
+							<th>Description</th>
+							<th>Type</th>
+							<th>Date de création</th>
+							<th>Livré ?</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						{% if projects != null %}
+						{% for project in projects %}
+						<tr>
+							<td>{{ project.intitule }}</td>
+							<td>{{ project.description }}</td>
+							<td>{{ project.type }}</td>
+							<td>{{ project.dateCreation|date('d-m-Y') }}</td>
+							<td>
+								{% if project %}Oui{% else %}Non{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+						{% else %}
+					<p>Aucun résultat</p>
+					{% endif %}
+
+					</tbody>
+				</table>
+			</div>
+
+			{# display navigation #}
+			{{ knp_pagination_render(pagination) }}
+
+		</div>
+		<!--/row -->
+	</section>
+</section>
+
+
+
+<!--main content end-->
+{% endblock %}

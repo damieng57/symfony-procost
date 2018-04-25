@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Projects
@@ -55,12 +56,41 @@ class Project {
 	 * @ORM\Column(name="livre", type="boolean")
 	 */
 	private $livre;
-	
-	
+
 	/**
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Time", mappedBy="intitule")
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Time", cascade={"persist", "merge"}, mappedBy="project")
 	 */
-	private $times;
+	private $days;
+
+	public function __construct() {
+		$this->products = new ArrayCollection();
+	}
+
+	public function addDay(\AppBundle\Entity\Project $days) {
+		$this->days[] = $days;
+		return $this;
+	}
+
+	public function removeDay(\AppBundle\Entity\Project $days) {
+		$this->days->removeElement($days);
+	}
+	
+	public function getDays() {
+		return $this->days;
+	}
+
+	/**
+	 * Set id
+	 *
+	 * @param int $id
+	 *
+	 * @return int
+	 */
+	public function setId($id) {
+		$this->id = $id;
+
+		return $this;
+	}
 
 	/**
 	 * Get id
@@ -76,7 +106,7 @@ class Project {
 	 *
 	 * @param string $intitule
 	 *
-	 * @return Projects
+	 * @return string
 	 */
 	public function setIntitule($intitule) {
 		$this->intitule = $intitule;
@@ -98,7 +128,7 @@ class Project {
 	 *
 	 * @param string $description
 	 *
-	 * @return Projects
+	 * @return string
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
@@ -120,7 +150,7 @@ class Project {
 	 *
 	 * @param string $type
 	 *
-	 * @return Projects
+	 * @return string
 	 */
 	public function setType($type) {
 		$this->type = $type;
@@ -142,7 +172,7 @@ class Project {
 	 *
 	 * @param \DateTime $dateCreation
 	 *
-	 * @return Projects
+	 * @return \DateTime
 	 */
 	public function setDateCreation($dateCreation) {
 		$this->dateCreation = $dateCreation;
@@ -164,7 +194,7 @@ class Project {
 	 *
 	 * @param boolean $livre
 	 *
-	 * @return Projects
+	 * @return bool
 	 */
 	public function setLivre($livre) {
 		$this->livre = $livre;
@@ -184,46 +214,4 @@ class Project {
 	public function __toString() {
 		return $this->getIntitule();
 	}
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->times = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add time
-     *
-     * @param \AppBundle\Entity\Time $time
-     *
-     * @return Project
-     */
-    public function addTime(\AppBundle\Entity\Time $time)
-    {
-        $this->times[] = $time;
-
-        return $this;
-    }
-
-    /**
-     * Remove time
-     *
-     * @param \AppBundle\Entity\Time $time
-     */
-    public function removeTime(\AppBundle\Entity\Time $time)
-    {
-        $this->times->removeElement($time);
-    }
-
-    /**
-     * Get times
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTimes()
-    {
-        return $this->times;
-    }
 }

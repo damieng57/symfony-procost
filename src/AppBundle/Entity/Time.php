@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Time
  *
@@ -31,7 +32,8 @@ class Time {
 	/**
 	 * @var string
 	 * 
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee", cascade={"persist", "merge"})
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee", cascade={"persist", "merge"}, inversedBy="days")
+	 * @ORM\JoinColumn(name="employee_id", referencedColumnName="id")
 	 * 
 	 */
 	private $employee;
@@ -39,10 +41,17 @@ class Time {
 	/**
 	 * @var string
 	 * 
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project", inversedBy="times", cascade={"persist", "merge"})
-	 * 
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project", cascade={"persist", "merge"}, inversedBy="days")
+	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
 	 */
 	private $project;
+	
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="date_ajout", type="datetime", nullable=false)
+	 */
+	private $dateAjout;
 
 	/**
 	 * Get id
@@ -122,5 +131,33 @@ class Time {
     public function getProject()
     {
         return $this->project;
+    }
+	
+	function __construct() {
+		$this->dateAjout = new \DateTime("now");
+	}
+
+    /**
+     * Set dateAjout
+     *
+     * @param \DateTime $dateAjout
+     *
+     * @return Time
+     */
+    public function setDateAjout($dateAjout)
+    {
+        $this->dateAjout = $dateAjout;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAjout
+     *
+     * @return \DateTime
+     */
+    public function getDateAjout()
+    {
+        return $this->dateAjout;
     }
 }

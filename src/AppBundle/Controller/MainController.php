@@ -20,30 +20,32 @@ class MainController extends Controller {
 
 		// On récupère le nombre de projets livrés
 		$nbProjectFinished = $em->getRepository('AppBundle:Project')->countProjectFinished();
-				
+
 		// On récupère le nombre de projets non livrés
 		$nbProjectNotFinished = $em->getRepository('AppBundle:Project')->countProjectNotFinished();
 
 		// On récupère le nombre d'employés
 		$nbEmployee = $em->getRepository('AppBundle:Employee')->countEmployee();
-
-		// On récupère les 5 deriers projets
-		$lastprojects = $em->getRepository('AppBundle:Project')->findBy(
-				array(),
-				array('dateCreation' => 'desc'),
-				5,
-				0
-		);	
 		
+		// On récupère le nombre d'employés
+		$nbJours = $em->getRepository('AppBundle:Time')->countProductionDays();
+
+		// On récupère les 5 derniers projets
+		$lastprojects = $em->getRepository('AppBundle:Project')->globalCostByProject();
+
 		// On récupère le nombre de projets CAPEX
 		$nbProjectCAPEX = $em->getRepository('AppBundle:Project')->countProjectCAPEX();
-		
-		
+
 		// On récupère le nombre de projets OPEX
 		$nbProjectOPEX = $em->getRepository('AppBundle:Project')->countProjectOPEX();
 		
+		// Récupération du meilleur employé
+		$topEmployee = $em->getRepository('AppBundle:Employee')->topEmployee();
+		
+		// Récupération des temps de production
+		$tempsProduction = $em->getRepository('AppBundle:Time')->productionTime();
 
-
+		
 		// replace this example code with whatever you need
 		return $this->render('app/index.html.twig', [
 					'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
@@ -54,6 +56,9 @@ class MainController extends Controller {
 					'nbProjectOPEX' => $nbProjectOPEX,
 					'nbEmployee' => $nbEmployee,
 					'lastProjects' => $lastprojects,
+					'nbJours' => $nbJours,
+					'topEmployee' => $topEmployee,
+					'tempsProduction'=> $tempsProduction,
 		]);
 	}
 
@@ -115,6 +120,31 @@ class MainController extends Controller {
 		return $this->render('app/jobs/jobs.html.twig', [
 					'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
 					'jobs' => $jobs,
+					'pagination' => $pagination,
+		]);
+	}
+
+	/**
+	 * @Route("/search", name="search")
+	 */
+	public function searchAction(Request $request) {
+		
+		// Méthode en utilisant les paramètres de la fonction ou un objet Request
+		$slug = $request->query->get('search');
+		
+		// Récupération de la liste des projets
+		$em = $this->getDoctrine()->getManager();
+		$projects = $em->getRepository('AppBundle:Project')->searchProject($slug);
+
+		$paginator = $this->get('knp_paginator');
+		$pagination = $paginator->paginate(
+				$projects, $request->query->getInt('page', 1), 10);
+
+
+		// replace this example code with whatever you need
+		return $this->render('app/search/search.html.twig', [
+					'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
+					'projects' => $projects,
 					'pagination' => $pagination,
 		]);
 	}
