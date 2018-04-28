@@ -2243,3 +2243,13 @@ label {
 .search-engine {
     margin-top: 10px;
 }
+
+.flash {
+	min-height: 60px;
+    padding: 0 15px;
+    position: fixed;
+    left: 0;
+    right: 0;
+	top: 50px;
+    z-index: 2000;
+}
