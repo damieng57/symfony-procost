@@ -17,7 +17,7 @@ class EmployeeRepository extends \Doctrine\ORM\EntityRepository {
 
 		return $query->getQuery()->getSingleScalarResult();
 	}
-	
+
 	public function topEmployee() {
 		// SELECT employee.prenom, employee.nom, job.job, 
 		// SUM(employee.cout_jour*time.day) AS cout FROM time, employee, job 
@@ -25,8 +25,8 @@ class EmployeeRepository extends \Doctrine\ORM\EntityRepository {
 		// GROUP BY employee.prenom, employee.nom, job.job 
 		// ORDER BY cout DESC 
 		// LIMIT 0,1
-		
-				$query = $this->createQueryBuilder('e')
+
+		$query = $this->createQueryBuilder('e')
 				->select('e.prenom, e.nom, e.picture, e.dateEmbauche, j.job, SUM(e.coutJour*t.day) AS cout')
 				->from('AppBundle:Job', 'j')
 				->from('AppBundle:Time', 't')
@@ -35,10 +35,9 @@ class EmployeeRepository extends \Doctrine\ORM\EntityRepository {
 				->groupBy('e.prenom, e.nom, e.picture, e.dateEmbauche, j.job')
 				->orderBy('cout', 'DESC')
 				->setMaxResults(1)
-				->setFirstResult(10);
+				->setFirstResult(0);
 
 		return $query->getQuery()->getResult();
-		
 	}
 
 }

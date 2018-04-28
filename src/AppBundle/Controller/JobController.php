@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Job;
 use AppBundle\Form\JobType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use DataDog\PagerBundle\Pagination;
 
 class JobController extends Controller {
 

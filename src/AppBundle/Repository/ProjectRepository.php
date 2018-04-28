@@ -79,7 +79,7 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 		// WHERE project.id=time.project_id 
 		// AND employee.id=time.employee_id
 		// AND employee.id = $id
-		
+
 
 		$query = $this->createQueryBuilder('p')
 				->select('t.id, p.intitule, p.dateCreation, t.day, e.coutJour')
@@ -93,18 +93,21 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 		return $query->getQuery()->getArrayResult();
 	}
-	
 
 	public function searchProject($value) {
+		// SELECT * FROM project 
+		// WHERE (intitule LIKE '%Expedita%') 
+		// OR (description LIKE '%Expedita%')
 
 		$query = $this->createQueryBuilder('q')
 				->select('q')
-				->andWhere('q.intitule like :x')
-				->setParameter('x', $value);
+				->where('q.intitule like :x')
+				->orWhere('q.description like :x')
+				->setParameter('x', '%'.$value.'%');
 
 		return $query->getQuery()->getResult();
 	}
-	
+
 	public function globalCostByProject() {
 		// SELECT project.intitule, project.date_creation, project.type, 
 		// SUM(employee.cout_jour*time.day) AS total_employee, project.livre
@@ -114,7 +117,7 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 		// GROUP BY project.intitule, project.livre, project.type, project.date_creation 
 		// ORDER BY project.date_creation 
 		// DESC LIMIT 0, 5
-		
+
 		$query = $this->createQueryBuilder('p')
 				->select('p.id, p.intitule, p.type, p.dateCreation, p.livre, SUM(e.coutJour*t.day)')
 				->from('AppBundle:Employee', 'e')
@@ -124,10 +127,57 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 				->groupBy('p.id, p.intitule, p.type, p.dateCreation, p.livre')
 				->orderBy('p.dateCreation', 'DESC')
 				->setMaxResults(5)
-				->setFirstResult(10);
+				->setFirstResult(0);
 
 		return $query->getQuery()->getResult();
-		
+	}
+
+	public function historyProjectByEmployees($id) {
+		// SELECT employee.nom, employee.prenom, time.day, time.date_ajout, SUM(employee.cout_jour*time.day) 
+		// FROM project, employee, time 
+		// WHERE project.id=243 
+		// AND employee.id=time.employee_id 
+		// AND project.id=time.project_id 
+		// GROUP BY employee.id
+
+		$query = $this->createQueryBuilder('p')
+				->select('e.id, e.nom, e.prenom, t.day, t.dateAjout, SUM(e.coutJour*t.day) AS cout')
+				->from('AppBundle:Employee', 'e')
+				->from('AppBundle:Time', 't')
+				->where('p.id=t.project')
+				->andWhere('e.id=t.employee')
+				->andWhere('p.id =:project_id')
+				->setParameter('project_id', $id)
+				->groupBy('e.id')
+				->orderBy('t.dateAjout', 'DESC');
+
+		return $query->getQuery()->getResult();
+	}
+
+	public function globalCost() {
+		// SELECT SUM(employee.cout_jour*time.day) 
+		// FROM employee, project, time 
+		// WHERE employee.id=time.employee_id 
+		// AND project.id=time.project_id
+	}
+
+	public function projectCost($id) {
+		// SELECT SUM(employee.cout_jour*time.day) 
+		// FROM employee, project, time 
+		// WHERE employee.id=time.employee_id 
+		// AND project.id=time.project_id 
+		// AND project.id=243
+
+		$query = $this->createQueryBuilder('p')
+				->select('SUM(e.coutJour*t.day) AS cout')
+				->from('AppBundle:Employee', 'e')
+				->from('AppBundle:Time', 't')
+				->where('p.id=t.project')
+				->andWhere('e.id=t.employee')
+				->andWhere('p.id =:project_id')
+				->setParameter('project_id', $id);
+
+		return $query->getQuery()->getResult();
 	}
 
 }

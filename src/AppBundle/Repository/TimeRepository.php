@@ -12,10 +12,10 @@ class TimeRepository extends \Doctrine\ORM\EntityRepository {
 
 	public function countProductionDays() {
 
-		// SELECT count(*) FROM time WHERE 1
+		// SELECT SUM(day) FROM time WHERE 1
 
 		$query = $this->createQueryBuilder('t')
-				->select('COUNT(t)');
+				->select('SUM(t.day)');
 
 		return $query->getQuery()->getSingleScalarResult();
 	}
@@ -37,7 +37,7 @@ class TimeRepository extends \Doctrine\ORM\EntityRepository {
 				->groupBy('e.id, e.nom, e.prenom, t.day, p.id, p.intitule, p.dateCreation')
 				->orderBy('p.dateCreation', 'DESC')
 				->setMaxResults(8)
-				->setFirstResult(10);
+				->setFirstResult(0);
 
 		return $query->getQuery()->getResult();
 	}

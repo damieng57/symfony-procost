@@ -33,10 +33,13 @@ class EmployeeType extends AbstractType {
 		$builder->add('dateEmbauche', DateType::class, array(
 			// renders it as a single text box
 			'widget' => 'single_text',
-        ));
-        
-        $builder->add('picture', FileType::class, array(
-			'label' => 'Image',
+		));
+
+
+		$builder
+				->add('picture', FileType::class, array(
+					'label' => 'Image',
+					'data_class' => 'Symfony\Component\HttpFoundation\File\File',
 		));
 	}
 

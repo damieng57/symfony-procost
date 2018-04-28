@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+//use DataDog\PagerBundle\Pagination;
 
 class MainController extends Controller {
 
@@ -26,7 +27,7 @@ class MainController extends Controller {
 
 		// On récupère le nombre d'employés
 		$nbEmployee = $em->getRepository('AppBundle:Employee')->countEmployee();
-		
+
 		// On récupère le nombre d'employés
 		$nbJours = $em->getRepository('AppBundle:Time')->countProductionDays();
 
@@ -38,14 +39,14 @@ class MainController extends Controller {
 
 		// On récupère le nombre de projets OPEX
 		$nbProjectOPEX = $em->getRepository('AppBundle:Project')->countProjectOPEX();
-		
+
 		// Récupération du meilleur employé
 		$topEmployee = $em->getRepository('AppBundle:Employee')->topEmployee();
-		
+
 		// Récupération des temps de production
 		$tempsProduction = $em->getRepository('AppBundle:Time')->productionTime();
 
-		
+
 		// replace this example code with whatever you need
 		return $this->render('app/index.html.twig', [
 					'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
@@ -58,7 +59,7 @@ class MainController extends Controller {
 					'lastProjects' => $lastprojects,
 					'nbJours' => $nbJours,
 					'topEmployee' => $topEmployee,
-					'tempsProduction'=> $tempsProduction,
+					'tempsProduction' => $tempsProduction,
 		]);
 	}
 
@@ -74,6 +75,12 @@ class MainController extends Controller {
 		$pagination = $paginator->paginate(
 				$projects, $request->query->getInt('page', 1), 10);
 
+		
+		//$qb = $em->getRepository("AppBundle:Project")
+        //    ->createQueryBuilder('p');
+
+        //$projects = new Pagination($qb, $request);
+        //return compact('projects');
 
 		// replace this example code with whatever you need
 		return $this->render('app/projects/projects.html.twig', [
@@ -128,10 +135,10 @@ class MainController extends Controller {
 	 * @Route("/search", name="search")
 	 */
 	public function searchAction(Request $request) {
-		
+
 		// Méthode en utilisant les paramètres de la fonction ou un objet Request
 		$slug = $request->query->get('search');
-		
+
 		// Récupération de la liste des projets
 		$em = $this->getDoctrine()->getManager();
 		$projects = $em->getRepository('AppBundle:Project')->searchProject($slug);

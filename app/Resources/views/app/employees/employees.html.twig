@@ -26,41 +26,58 @@
 					</thead>
 					<tbody>
 						{% for employee in pagination %}
-						<tr {% if (employee.status == false) %} class="archive" {% endif %}>			
-							<th>{{ employee.prenom }} {{ employee.nom | upper }}</th>
-							<th>{{ employee.email }}</th>
-							<th>{{ employee.job.job }}</th>
-							<th>{{ employee.coutJour }} €</th>
-							<th>{{ employee.dateEmbauche|date('d-m-Y') }}</th>
-							<th>
-								<a href="{{ path('employee_time', {'id': employee.id }) }}" class="btn btn-success btn-xs">
-								   <i class="fa fa-clock-o"></i>
-								</a>
-								<a href="{{ path('employee_edit', {'id': employee.id }) }}"
-
-									{% if (employee.status == false) %} 
-									class="btn btn-primary btn-xs isDisabled" 
-									{% else %}
-									class="btn btn-primary btn-xs"							   
-									{% endif %}>
-									<i class="fa fa-pencil"></i>
-								</a>
-								<a href="{{ path('employee_archive', {'id': employee.id }) }}" class="btn btn-danger btn-xs">
-									<i class="fa fa-trash-o"></i>
-								</a>
+						<tr>	
+							<td {% if (employee.status == 0) %} 
+								style="text-decoration:line-through" 
+								{% endif %}>
+								{{ employee.prenom }} {{ employee.nom | upper }}
+						</td>
+						<td {% if (employee.status == 0) %} 
+							style="text-decoration:line-through" 
+							{% endif %}>
+							{{ employee.email }}
+						</td>
+						<td {% if (employee.status == 0) %} 
+							style="text-decoration:line-through" 
+							{% endif %}>{{ employee.job.job }}
+						</td>
+						<td {% if (employee.status == 0) %} 
+							style="text-decoration:line-through" 
+							{% endif %}>{{ employee.coutJour }} €
+						</td>
+						<td {% if (employee.status == 0) %} 
+							style="text-decoration:line-through" 
+							{% endif %}>{{ employee.dateEmbauche|date('d-m-Y') }}
 							</th>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
+						<td>
+							<a href="{{ path('employee_time', {'id': employee.id }) }}" class="btn btn-success btn-xs">
+								<i class="fa fa-clock-o"></i>
+							</a>
+							<a href="{{ path('employee_edit', {'id': employee.id }) }}"
 
-			{# display navigation #}
-			{{ knp_pagination_render(pagination) }}
+							   {% if (employee.status == false) %} 
+							   class="btn btn-primary btn-xs isDisabled" 
+							   {% else %}
+							   class="btn btn-primary btn-xs"							   
+							   {% endif %}>
+							   <i class="fa fa-pencil"></i>
+							</a>
+							<a href="{{ path('employee_archive', {'id': employee.id }) }}" class="btn btn-danger btn-xs">
+								<i class="fa fa-trash-o"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
-		</div>
-		<!--/row -->
-	</section>
+{# display navigation #}
+{{ knp_pagination_render(pagination) }}
+
+</div>
+<!--/row -->
+</section>
 </section>
 
 <!--main content end-->

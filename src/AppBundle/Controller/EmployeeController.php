@@ -10,6 +10,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\File;
 
 class EmployeeController extends Controller {
 
@@ -85,8 +86,18 @@ class EmployeeController extends Controller {
 				// Ajout du champ status non renseigné dans le formulaire
 				// Etant donné qu'on ne peut modifier un utilisateur archivé
 				// le status sera à 1
-
 				$employee->setStatus(1);
+				
+				// Update de l'image
+				$file = $employee->getPicture();
+				$fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
+
+				// moves the file to the directory where pictures are stored
+				$file->move(
+						$this->getParameter('pictures_directory'), $fileName
+				);
+				
+				$employee->setPicture($fileName);
 
 				$em->merge($employee);
 				$em->flush();
@@ -100,7 +111,11 @@ class EmployeeController extends Controller {
 				// Récupération de l'employé
 				$em = $this->getDoctrine()->getManager();
 				$employee = $em->getRepository('AppBundle:Employee')->find($id);
-
+				
+				// Le formulaire attend un objet de type file pour l'image
+				// on effectue la transformation grâce à la ligne ci-dessous
+				$employee->setPicture(new File($this->getParameter('pictures_directory').'/'.$employee->getPicture()));
+				
 				$form = $this->createForm(EmployeeType::class, $employee);
 
 				$form->handleRequest($request);
@@ -169,7 +184,7 @@ class EmployeeController extends Controller {
 
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate(
-				$projects, $request->query->getInt('page', 1), 10);
+				$history, $request->query->getInt('page', 1), 10);
 
 		// replace this example code with whatever you need
 		return $this->render('app/employees/employee_timetracking.html.twig', [
@@ -194,8 +209,7 @@ class EmployeeController extends Controller {
 		// Changement du status de l'employé en "archivé"
 		if (($employee->getStatus() == 1) ?
 						$employee->setStatus(0) : $employee->setStatus(1)
-		)
-			;
+		);
 
 		$em->persist($employee);
 		$em->flush();
