@@ -21,7 +21,7 @@ ProjectController.
 - Les fixtures sont faites. Par défaut, les employés ont l'image default.png
 
 NOTA:
-Ce projet a été pour moitié réalisé dans des conditions un peu particulière.
+Ce projet a été pour moitié réalisé dans des conditions un peu particulières.
 Je suis actuellement en Chine où l'accés à Google et tous les services associés
-sont interdits, l'usage de VPN également et où la connexion est parfois trés 
+sont inaccessibles, l'usage de VPN également et où la connexion est parfois trés 
 lente. Je le précise car cela était vraiment une difficulté.
