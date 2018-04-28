@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Project;
 use AppBundle\Entity\Time;
 use AppBundle\Form\ProjectType;
-use AppBundle\Form\TimeType;
+use AppBundle\Form\TimeProjectType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class ProjectController extends Controller {
@@ -138,7 +138,7 @@ class ProjectController extends Controller {
 		// Génération du formulaire pour l'ajout de temps
 		//**********************
 		$time = new Time();
-		$form = $this->createForm(TimeType::class, $time, ['id' => $id]);
+		$form = $this->createForm(TimeProjectType::class, $time, ['id' => $id]);
 
 		$form->handleRequest($request);
 
@@ -148,7 +148,7 @@ class ProjectController extends Controller {
 			$em = $this->getDoctrine()->getManager();
 
 			// On vérifie que le projet n'est pas déjà livré
-			$temp = $em->getRepository('AppBundle:Project')->find($time->getProject()->getId());
+			$temp = $em->getRepository('AppBundle:Project')->find($id);
 
 			// Si oui, on ne peut pas ajouter du temps
 			if ($temp->getLivre()) {
@@ -167,12 +167,12 @@ class ProjectController extends Controller {
 			return $this->redirect($this->generateUrl('project_time', ['id' => $id]));
 		} else {
 			// Sinon, on affiche le formulaire vide
-			$form = $this->createForm(TimeType::class, $time);
+			$form = $this->createForm(TimeProjectType::class, $time);
 
 			$form->handleRequest($request);
 		}
 
-		// Récupération de l'employé
+		// Récupération du projet
 		$em = $this->getDoctrine()->getManager();
 		$project = $em->getRepository('AppBundle:Project')->find($id);
 

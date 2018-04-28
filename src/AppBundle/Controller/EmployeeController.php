@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Employee;
 use AppBundle\Form\EmployeeType;
 use AppBundle\Entity\Time;
-use AppBundle\Form\TimeType;
+use AppBundle\Form\TimeEmployeeType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -87,7 +87,7 @@ class EmployeeController extends Controller {
 				// Etant donné qu'on ne peut modifier un utilisateur archivé
 				// le status sera à 1
 				$employee->setStatus(1);
-				
+
 				// Update de l'image
 				$file = $employee->getPicture();
 				$fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
@@ -96,7 +96,7 @@ class EmployeeController extends Controller {
 				$file->move(
 						$this->getParameter('pictures_directory'), $fileName
 				);
-				
+
 				$employee->setPicture($fileName);
 
 				$em->merge($employee);
@@ -111,14 +111,20 @@ class EmployeeController extends Controller {
 				// Récupération de l'employé
 				$em = $this->getDoctrine()->getManager();
 				$employee = $em->getRepository('AppBundle:Employee')->find($id);
-				
+
 				// Le formulaire attend un objet de type file pour l'image
 				// on effectue la transformation grâce à la ligne ci-dessous
-				$employee->setPicture(new File($this->getParameter('pictures_directory').'/'.$employee->getPicture()));
-				
+				$employee->setPicture(new File($this->getParameter('pictures_directory') . '/' . $employee->getPicture()));
+
 				$form = $this->createForm(EmployeeType::class, $employee);
 
 				$form->handleRequest($request);
+
+				// Si l'employé est archivé, on ne peut pas modifier
+				if (!$employee->getStatus()) {
+					$this->get('session')->getFlashBag()->add('error', "L'employé est archivé, pas de modification possible.");
+					return $this->redirectToRoute('employees');
+				}
 			}
 		}
 
@@ -138,7 +144,7 @@ class EmployeeController extends Controller {
 		// Génération du formulaire pour l'ajout de temps
 		//**********************
 		$time = new Time();
-		$form = $this->createForm(TimeType::class, $time, ['id' => $id]);
+		$form = $this->createForm(TimeEmployeeType::class, $time, ['id' => $id]);
 
 		$form->handleRequest($request);
 
@@ -167,7 +173,7 @@ class EmployeeController extends Controller {
 			return $this->redirect($this->generateUrl('employee_time', ['id' => $id]));
 		} else {
 			// Sinon, on affiche le formulaire vide
-			$form = $this->createForm(TimeType::class, $time);
+			$form = $this->createForm(TimeEmployeeType::class, $time);
 
 			$form->handleRequest($request);
 		}
@@ -209,7 +215,8 @@ class EmployeeController extends Controller {
 		// Changement du status de l'employé en "archivé"
 		if (($employee->getStatus() == 1) ?
 						$employee->setStatus(0) : $employee->setStatus(1)
-		);
+		)
+			;
 
 		$em->persist($employee);
 		$em->flush();

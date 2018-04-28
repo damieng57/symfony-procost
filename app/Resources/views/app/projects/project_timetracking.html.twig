@@ -32,7 +32,7 @@
 				</div>
 
 				{% if project.livre == false %}
-				{# include "app/project/components/addTime.html.twig" #}
+				{% include "app/projects/components/addTime.html.twig" %}
 				{% endif %}
 
 			</div>
@@ -51,7 +51,7 @@
 					<tbody>
 						{% for employee in pagination %}
 						<tr>
-							<th><a href="employeeTime/{{ employee.id }}">{{ employee.prenom }} {{ employee.nom | upper }}</a></th>
+							<th><a href="{{ path('employee_time', {'id': employee.eid, }) }}">{{ employee.prenom }} {{ employee.nom | upper }}</a></th>
 							<th> {{ employee.day }}</th>
 							<th>{{ employee.dateAjout|date('d-m-Y') }}</th>
 							<th> {{ employee.cout }}€</th>

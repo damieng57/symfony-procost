@@ -82,13 +82,14 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 
 		$query = $this->createQueryBuilder('p')
-				->select('t.id, p.intitule, p.dateCreation, t.day, e.coutJour')
+				->select('t.id, p.intitule, p.dateCreation, t.day AS day, e.coutJour')
 				->from('AppBundle:Employee', 'e')
 				->from('AppBundle:Time', 't')
 				->where('p.id=t.project')
 				->andWhere('e.id=t.employee')
 				->andWhere('e.id=:employee')
 				->setParameter('employee', $id)
+				->groupBy('p.intitule')
 				->orderBy('p.dateCreation', 'DESC');
 
 		return $query->getQuery()->getArrayResult();
@@ -141,7 +142,7 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 		// GROUP BY employee.id
 
 		$query = $this->createQueryBuilder('p')
-				->select('e.id, e.nom, e.prenom, t.day, t.dateAjout, SUM(e.coutJour*t.day) AS cout')
+				->select('t.id, e.id AS eid, e.nom, e.prenom, t.day, t.dateAjout, SUM(e.coutJour*t.day) AS cout')
 				->from('AppBundle:Employee', 'e')
 				->from('AppBundle:Time', 't')
 				->where('p.id=t.project')

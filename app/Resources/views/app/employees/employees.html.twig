@@ -48,20 +48,23 @@
 						<td {% if (employee.status == 0) %} 
 							style="text-decoration:line-through" 
 							{% endif %}>{{ employee.dateEmbauche|date('d-m-Y') }}
-							</th>
+							</td>
 						<td>
 							<a href="{{ path('employee_time', {'id': employee.id }) }}" class="btn btn-success btn-xs">
 								<i class="fa fa-clock-o"></i>
 							</a>
+							{% if (employee.status == 0) %}
 							<a href="{{ path('employee_edit', {'id': employee.id }) }}"
-
-							   {% if (employee.status == false) %} 
-							   class="btn btn-primary btn-xs isDisabled" 
-							   {% else %}
-							   class="btn btn-primary btn-xs"							   
-							   {% endif %}>
+							   class="btn btn-primary btn-xs" style="input:disabled; background:#454545;">
 							   <i class="fa fa-pencil"></i>
 							</a>
+							{% else %}
+							<a href="{{ path('employee_edit', {'id': employee.id }) }}"
+							   class="btn btn-primary btn-xs">
+							   <i class="fa fa-pencil"></i>
+							</a>
+							
+							{% endif %}
 							<a href="{{ path('employee_archive', {'id': employee.id }) }}" class="btn btn-danger btn-xs">
 								<i class="fa fa-trash-o"></i>
 							</a>

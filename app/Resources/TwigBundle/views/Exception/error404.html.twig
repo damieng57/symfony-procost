@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+        <h1>La page demandée n'existe pas</h1>
+        <h2>Le serveur a retourné une erreur "{{ status_code }} {{ status_text }}".</h2>
+
+        <div>
+            Pour revenir à la page d'accueil, cliquer <a href="/">ici</a>
+        </div>
+{% endblock %}

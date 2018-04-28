@@ -9,16 +9,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class TimeType extends AbstractType {
+class TimeProjectType extends AbstractType {
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 
-		$builder->add('project', EntityType::class, array(
-			'class' => 'AppBundle:Project',
-			'label' => 'Projet à imputer',
+		$builder->add('employee', EntityType::class, array(
+			'class' => 'AppBundle:Employee',
+			'label' => 'Employé à affecter',
 			'multiple' => false,
 		));
 
@@ -28,7 +28,7 @@ class TimeType extends AbstractType {
 			'required' => true,
 		));
 
-		$builder->add('employee', HiddenType::class, array(
+		$builder->add('project', HiddenType::class, array(
 			'data' => $options['id'],
 		));
 	}
