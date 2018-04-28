@@ -53,15 +53,7 @@
 								</a>
 
 								{% endif %}
-
 								<!-- Trigger the modal with a button -->
-								{% if (project.livre == true) %} 
-								<a href="{{ path('project_delete', {'id': project.id }) }}"
-								   class="btn btn-danger btn-xs"  style="input:disabled; background:#454545;">
-									<i class="fa fa-trash-o"></i>
-								</a>
-
-								{% else %}
 								<button type="button" 
 										class="btn btn-danger btn-xs" 
 										data-toggle="modal" 
@@ -72,7 +64,6 @@
 										>
 									<i class="fa fa-trash-o"></i>
 								</button>
-								{% endif %}
 							</th>
 						</tr>
 						{% endfor %}

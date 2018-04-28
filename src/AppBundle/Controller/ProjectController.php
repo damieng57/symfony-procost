@@ -60,10 +60,10 @@ class ProjectController extends Controller {
 				// Modification du projet en base de données
 				$em = $this->getDoctrine()->getManager();
 
-					$em->merge($project);
-					$em->flush();
-					// Message flash
-					$this->get('session')->getFlashBag()->add('success', "Projet modifié avec succès.");
+				$em->merge($project);
+				$em->flush();
+				// Message flash
+				$this->get('session')->getFlashBag()->add('success', "Projet modifié avec succès.");
 
 				return $this->redirectToRoute('projects');
 			} else {
@@ -75,13 +75,12 @@ class ProjectController extends Controller {
 				$form = $this->createForm(ProjectType::class, $project);
 
 				$form->handleRequest($request);
-				
+
 				// Si le projet n'est pas livré, on peut modifier
-				if ($project->getLivre() ) {
+				if ($project->getLivre()) {
 					$this->get('session')->getFlashBag()->add('error', "Le projet est livré, pas de modification possible.");
 					return $this->redirectToRoute('projects');
 				}
-					
 			}
 		}
 
@@ -107,6 +106,36 @@ class ProjectController extends Controller {
 				$em = $this->getDoctrine()->getEntityManager();
 				$project = $em->getRepository('AppBundle:Project')->find($id);
 
+				// Cout total du projet
+				$cost = $em->getRepository('AppBundle:Project')->projectCost($id);
+
+				// Récupération de l'historique avec le nom des employés
+				$history = $em->getRepository('AppBundle:Project')->historyProjectByEmployees($id);
+
+				/*
+				$message = \Swift_Message::newInstance()
+						->setSubject('Récapitulatif de projets')
+						->setFrom('email@test.com')
+						->setTo('expediteur@outlook.fr')
+						->setContentType("text/html")
+						->setBody($this->render('app/_models/_email.html.twig', [
+							'project' => $project,
+							'cost' => $cost,
+							'history' => $history,
+				]));
+				 
+				
+				$this->get('mailer')->send($message);
+				*/
+				
+				$em->remove($project);
+					$em->flush();
+					// Message flash
+					$this->get('session')->getFlashBag()->add('success', "Projet supprimé avec succès.");
+
+				// Gestion alternative de la suppression. Si le projet est livré
+				// impossible de supprimer
+				/*
 				// Si le projet n'est pas livré, on peut supprimer
 				if (!$project->getLivre()) {
 					$em->remove($project);
@@ -119,13 +148,14 @@ class ProjectController extends Controller {
 
 				// On intercepte l'erreur si on tente de supprimer une entrée liée
 				// à des temps ou des employés
+				 */
 			} catch (\Doctrine\DBAL\DBALException $e) {
 				// Message flash
 				$this->get('session')->getFlashBag()->add('error', "Erreur. La "
 						. "suppression n'a pas pu s'effectuer correctement. "
 						. "Ce projet a déjà des temps et utilisateurs affectés");
 			}
-
+			
 			return $this->redirectToRoute('projects');
 		}
 	}

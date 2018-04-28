@@ -82,7 +82,7 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 
 
 		$query = $this->createQueryBuilder('p')
-				->select('t.id, p.intitule, p.dateCreation, t.day AS day, e.coutJour')
+				->select('t.id, p.id AS pid, p.intitule, p.dateCreation, SUM(t.day) AS day, e.coutJour')
 				->from('AppBundle:Employee', 'e')
 				->from('AppBundle:Time', 't')
 				->where('p.id=t.project')
@@ -142,7 +142,8 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository {
 		// GROUP BY employee.id
 
 		$query = $this->createQueryBuilder('p')
-				->select('t.id, e.id AS eid, e.nom, e.prenom, t.day, t.dateAjout, SUM(e.coutJour*t.day) AS cout')
+				->select('t.id, e.id AS eid, e.nom, e.prenom, e.status,'
+						. ' SUM(t.day) AS day, t.dateAjout, SUM(e.coutJour*t.day) AS cout')
 				->from('AppBundle:Employee', 'e')
 				->from('AppBundle:Time', 't')
 				->where('p.id=t.project')

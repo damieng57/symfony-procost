@@ -58,7 +58,7 @@ class Project {
 	private $livre;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Time", cascade={"persist", "merge"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Time", cascade={"persist", "merge", "remove"}, mappedBy="project")
 	 */
 	private $days;
 

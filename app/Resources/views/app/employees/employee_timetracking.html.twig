@@ -54,7 +54,7 @@
 					<tbody>
 						{% for project in pagination %}
 						<tr>
-							<th><a href="#">{{ project.intitule }}</a></th>
+							<th><a href="{{ path('project_time', {'id': project.pid }) }}">{{ project.intitule }}</a></th>
 							<th> {{ project.day }}</th>
 							<th>{{ project.dateCreation|date('d-m-Y') }}</th>
 							<th> {{ project.coutJour*project.day }}€</th>

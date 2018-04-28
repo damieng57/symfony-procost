@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use AppBundle\Entity\Employee;
+use Doctrine\ORM\EntityRepository;
 
 class TimeProjectType extends AbstractType {
 
@@ -16,10 +18,20 @@ class TimeProjectType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 
+		/*
+		  $builder->add('employee', EntityType::class, array(
+		  'class' => 'AppBundle:Employee',
+		  'label' => 'Employé à affecter',
+		  'multiple' => false,
+		  )); */
+
 		$builder->add('employee', EntityType::class, array(
-			'class' => 'AppBundle:Employee',
-			'label' => 'Employé à affecter',
-			'multiple' => false,
+			'class' => Employee::class,
+			'query_builder' => function (EntityRepository $er) {
+				return $er->createQueryBuilder('e')
+								->where('e.status = true')
+								->orderBy('e.nom', 'ASC');
+			},
 		));
 
 		$builder->add('day', TextType::class, array(

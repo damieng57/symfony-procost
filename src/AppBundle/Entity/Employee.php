@@ -78,7 +78,7 @@ class Employee {
     private $picture;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Time", cascade={"persist", "merge"}, mappedBy="employee")
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Time", cascade={"persist", "merge", "remove"}, mappedBy="employee")
 	 */
 	private $days;
 

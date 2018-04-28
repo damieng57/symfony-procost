@@ -51,7 +51,12 @@
 					<tbody>
 						{% for employee in pagination %}
 						<tr>
-							<th><a href="{{ path('employee_time', {'id': employee.eid, }) }}">{{ employee.prenom }} {{ employee.nom | upper }}</a></th>
+							<th><a href="{{ path('employee_time', {'id': employee.eid }) }}"
+								   {% if (employee.status == 0) %} 
+										style="text-decoration:line-through" 
+									{% endif %}>
+									{{ employee.prenom }} {{ employee.nom | upper }}
+								</a></th>
 							<th> {{ employee.day }}</th>
 							<th>{{ employee.dateAjout|date('d-m-Y') }}</th>
 							<th> {{ employee.cout }}€</th>

@@ -1,0 +1,13 @@
+<h1>Récapitulatif du projet : {{ project.intitule }}</h1>
+
+<h2>Listing des employés affectés au projet</h2>
+{% for employee in history %}
+<p>*-------------------------------------*</p>
+{{ employee.prenom }} {{ employee.nom | upper }}<br/>
+A travaillé {{ employee.day }}  : Date de saisie {{ employee.dateAjout|date('d-m-Y') }}<br/>
+Coût de cet employé : {{ employee.cout }}€ <br/>
+<p>*-------------------------------------*</p>
+{% endfor %}
+
+
+<h2>Coût global du projet : {{ cost.0.cout }}€</h2>
